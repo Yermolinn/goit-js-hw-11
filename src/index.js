@@ -3,6 +3,7 @@ import ImgApiService from './js/PixabayAPI.js';
 import createTemplate from './js/createTemplate.js';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
+import debounce from 'lodash.debounce';
 
 
 import LoadMoreBtn from './js/components/loadMoreBtn.js';
@@ -38,7 +39,7 @@ function onSubmit(e) {
   imgApiService.resetPage();
 
   clearTemplate();
-    loadMoreBtn.show();
+    // loadMoreBtn.show();
   fetchImgs().finally(() => formEl.reset());
 }
 
@@ -48,22 +49,17 @@ function onSubmit(e) {
 // ==============      ASYNC FN      ==============
 
 async function fetchImgs() {
-  loadMoreBtn.disable();
-
+  // loadMoreBtn.disable();
   try {
     const hits = await imgApiService.getImages();
-    
-
     if (hits.length === 0) {
       Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
       )
     };
-
     const template = hits.reduce((markUp, hit) => createTemplate(hit) + markUp, '');
     appendTemplate(template);
-    
-    loadMoreBtn.enable();
+    // loadMoreBtn.enable();
   }
   catch (err) {
     console.error(err)
@@ -77,9 +73,11 @@ function appendTemplate(markUp) {
   
 }
 
+
 function clearTemplate() {
   galleryDiv.innerHTML = '';
 }
+
 
 function onError(err) {
   console.error(err);
@@ -93,6 +91,16 @@ function onError(err) {
 }
 
 
+
+
+  //  ++++++++++      INFINITY SCROLL     ++++++++++
+
+window.addEventListener('scroll', debounce(() => {
+  const documentRect = document.documentElement.getBoundingClientRect();
+  if (documentRect.bottom < document.documentElement.clientHeight + 200) {
+    fetchImgs().finally(() => formEl.reset());;
+  }
+}, 300));
 
 
 
