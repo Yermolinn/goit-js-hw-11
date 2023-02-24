@@ -1,1 +1,63 @@
 @import '~node_modules/modern-normalize/modern-normalize.css';
+
+* {
+text-decoration: none;
+}
+
+
+
+.search-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    background-color: rgb(94, 89, 255);
+    
+
+}
+
+.gallery{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.card-link {
+    width: 100%;
+    flex-basis: calc((100% - 40px) / 4);
+    &:hover{
+        transform: scale(1.02);
+    }
+}
+
+.photo-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: space-evenly;
+}
+
+.info {
+    display: flex;
+    text-align: center;
+    gap: .625rem;
+  padding: .9375rem;
+
+  width: 100%;
+
+  font-size: .8125rem;
+    background-color: rgb(237, 232, 255);
+}
+
+
+.photo {
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
